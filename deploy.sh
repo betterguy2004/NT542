@@ -45,7 +45,7 @@ deploy_application() {
     mkdir -p "$app_dir"
     
     # Clone repository from GitHub
-    git clone https://github.com/Buddini96/Mern-Ecommerce.git "$app_dir"
+    git clone https://github.com/betterguy2004/NT542.git "$app_dir"
     cd "$app_dir"
 
     # Install frontend dependencies
