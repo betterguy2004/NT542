@@ -30,45 +30,11 @@ install_nginx() {
     ufw allow 'Nginx Full' 2>/dev/null || true
 }
 
-# Install MongoDB (Database)
-install_mongodb() {
-    # Try installing from official MongoDB repository first
-    ubuntu_version=$(lsb_release -rs)
-    
-    if [[ "$ubuntu_version" > "20.04" ]]; then
-        # For Ubuntu 22.04+ use MongoDB 7.0 with new key method
-        curl -fsSL https://pgp.mongodb.com/server-7.0.asc | gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
-        echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
-        apt-get update
-        
-        # Try official MongoDB, fallback to Ubuntu repository if fails
-        if ! apt-get install -y mongodb-org; then
-            echo "Official MongoDB failed, trying Ubuntu repository..."
-            apt-get install -y mongodb
-        fi
-    else
-        # For Ubuntu 20.04 use MongoDB from Ubuntu repository (simpler)
-        apt-get install -y mongodb
-    fi
-    
-    # Start MongoDB service (different service names)
-    if systemctl list-unit-files | grep -q mongod; then
-        systemctl enable mongod
-        systemctl start mongod
-    else
-        systemctl enable mongodb
-        systemctl start mongodb
-    fi
-}
-
 # Install Node.js (Runtime Environment)
 install_nodejs() {
     # Install Node.js 18.x
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
     apt-get install -y nodejs
-    
-    # Install PM2 for process management
-    npm install -g pm2
 }
 
 # Deploy Application
@@ -81,35 +47,22 @@ deploy_application() {
     # Clone repository from GitHub
     git clone https://github.com/Buddini96/Mern-Ecommerce.git "$app_dir"
     cd "$app_dir"
-    
-    # Install backend dependencies
-    cd backend
-    npm install
-    npm audit fix --force 2>/dev/null || true
-    
+
     # Install frontend dependencies
-    cd ../frontend
+    cd frontend
     npm install
     npm audit fix --force 2>/dev/null || true
-    
-    # Create environment file for backend
+    npm run dev &
+
+    # Install backend dependencies
     cd ../backend
-    cat > .env << EOF
-PORT=4000
-MONGODB_URI=mongodb://localhost:27017/mern_ecommerce
-JWT_SECRET=your_jwt_secret_key_here
-NODE_ENV=development
-EOF
+    npm install
+    npm audit fix --force 2>/dev/null || true
+    node index.js &
+
+
+
     
-    # Start backend with PM2
-    pm2 start index.js --name "mern-backend"
-    pm2 save
-    pm2 startup
-    
-    # Start frontend development server with PM2
-    cd ../frontend
-    pm2 start "npm run dev" --name "mern-frontend"
-    pm2 save
 }
 
 # Configure Nginx
@@ -184,7 +137,6 @@ main() {
     # Install system components
     update_system
     install_nginx
-    install_mongodb
     install_nodejs
     
     # Deploy application
@@ -199,18 +151,9 @@ main() {
     echo "Thông tin hệ thống:"
     echo "• Website: http://$(hostname -I | awk '{print $1}')"
     echo "• Backend API: http://$(hostname -I | awk '{print $1}')/api"
-    echo "• MongoDB: localhost:27017"
-    echo ""
-    echo "Quản lý ứng dụng:"
-    echo "• Xem trạng thái: pm2 status"
-    echo "• Xem logs backend: pm2 logs mern-backend"
-    echo "• Xem logs frontend: pm2 logs mern-frontend"
-    echo "• Restart backend: pm2 restart mern-backend"
-    echo "• Restart frontend: pm2 restart mern-frontend"
     echo ""
     echo "Services:"
     echo "• Nginx: systemctl status nginx"
-    echo "• MongoDB: systemctl status mongod"
     echo ""
     echo "Development servers:"
     echo "• Frontend (Vite): localhost:5173"
