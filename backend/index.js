@@ -22,7 +22,7 @@ app.use(cors(corsConfig));
 
 //Database connection
 mongoose.connect(
-  "mongodb+srv://ecommerceMern:user123@cluster0.nrdblkk.mongodb.net/ecommerce-mern?retryWrites=true&w=majority&appName=Cluster0"
+  "mongodb+srv://phunghung146_db_user:uvcA1Hyn7HkFmHDo@cluster0.seoz547.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 );
 
 app.get("/", (req, res) => {
