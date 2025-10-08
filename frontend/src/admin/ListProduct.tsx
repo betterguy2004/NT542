@@ -20,7 +20,7 @@ const ListProduct = () => {
 
   const fetchInfo = async () => {
     try {
-      const response = await fetch("http://localhost:4000/allProducts");
+      const response = await fetch("/api/allProducts");
       const data = await response.json();
       setAllProducts(data);
     } catch (error) {
@@ -33,7 +33,7 @@ const ListProduct = () => {
   }, []);
 
   const removeProduct = async (productId: number) => {
-    await fetch("http://localhost:4000/deleteProduct", {
+    await fetch("/api/deleteProduct", {
       method: "DELETE",
       headers: {
         Accept: "application/json",

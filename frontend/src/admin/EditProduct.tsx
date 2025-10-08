@@ -25,7 +25,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/getProduct/${productId}`);
+        const response = await fetch(`/api/getProduct/${productId}`);
         if (response.ok) {
           const data = await response.json();
           setProductDetails(data); 
@@ -64,7 +64,7 @@ const EditProduct = () => {
         const formData = new FormData();
         formData.append("product", image);
 
-        const response = await fetch("http://localhost:4000/upload", {
+        const response = await fetch("/api/upload", {
           method: "POST",
           body: formData,
         });
@@ -82,7 +82,7 @@ const EditProduct = () => {
         image: imageUrl,
       };
 
-      const updateResponse = await fetch(`http://localhost:4000/editProduct/${updatedProduct.id}`, {
+      const updateResponse = await fetch(`/api/editProduct/${updatedProduct.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -49,11 +49,11 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const [all_products, setAll_products] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/allProducts")
+    fetch("/api/allProducts")
       .then((response) => response.json())
       .then((data) => setAll_products(data));
       if(localStorage.getItem('auth-token')) {
-        fetch('http://localhost:4000/getcart',{
+        fetch('/api/getcart',{
           method: 'POST',
           headers: {
             Accept: 'application/form-data',
@@ -69,7 +69,7 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const addToCart = (itemId: number) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     if (localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/addtocart", {
+      fetch("/api/addtocart", {
         method: "POST",
         headers: {
           Accept: "application/form-data",
@@ -86,7 +86,7 @@ const ShopContextProvider: React.FC<ShopContextProviderProps> = ({
   const removeFromCart = (itemId: number) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
     if (localStorage.getItem("auth-token")) {
-      fetch("http://localhost:4000/removefromcart", {
+      fetch("/api/removefromcart", {
         method: "POST",
         headers: {
           Accept: "application/form-data",

@@ -15,7 +15,7 @@ const ListUsers = () => {
 
   const fetchInfo = async () => {
     try {
-      const response = await fetch("http://localhost:4000/allusers");
+      const response = await fetch("/api/allusers");
       const data = await response.json();
       const formattedUsers = data.map((user: Product) => ({
         ...user,
@@ -32,7 +32,7 @@ const ListUsers = () => {
   }, []);
 
   const removeProduct = async (username: string) => {
-    await fetch("http://localhost:4000/deleteUser", {
+    await fetch("/api/deleteUser", {
       method: "DELETE",
       headers: {
         Accept: "application/json",

@@ -14,7 +14,7 @@ const Popular: React.FC = () => {
   const [popularProducts, setPopularProducts] = useState<PopularItem[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/popularProducts")
+    fetch("/api/popularProducts")
       .then((response) => response.json())
       .then((data) => setPopularProducts(data));
   }, []);

@@ -11,10 +11,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usersResponse = await fetch('http://localhost:4000/totalUsers');
+        const usersResponse = await fetch('/api/totalUsers');
         const usersData = await usersResponse.json();
         
-        const productsResponse = await fetch('http://localhost:4000/totalProducts');
+        const productsResponse = await fetch('/api/totalProducts');
         const productsData = await productsResponse.json();
         
         
