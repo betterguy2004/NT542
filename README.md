@@ -20,22 +20,19 @@ Welcome to the Nike E-Commerce Website, your go-to destination for the latest Ni
 
 ## Installation 🚀
 
-#### 1. Clone the repository:
+#### 1. Permit script deploy.sh
 
 ```bash
-git clone https://github.com/Buddini96/Mern-Ecommerce.git 
+chmod 700 deploy.sh
 
 ```
-#### 2. Start the frontend development server:
+#### 2. Start script deploy.sh
 
 ```bash
-npm run dev
+./deploy.sh
 
 ```
-#### 3. Start the backend development server:
 
-```bash
-node index.js 
 
 
 
