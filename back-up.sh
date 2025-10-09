@@ -17,7 +17,7 @@ LOG_FILE="${BACKUP_DIR}/backup.log"
 
 # MongoDB Atlas Configuration
 MONGO_URI="mongodb+srv://phunghung146_db_user:uvcA1Hyn7HkFmHDo@cluster0.seoz547.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_DB="test"  # Thay tên database thực tế của bạn
+MONGO_DB="test"  
 
 # ============= MÀU SẮC OUTPUT =============
 RED='\033[0;31m'
